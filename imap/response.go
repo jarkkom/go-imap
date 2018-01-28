@@ -237,6 +237,22 @@ func (rsp *Response) SearchResults() []uint32 {
 	return v
 }
 
+// SortResults returns a slice of message sequence numbers or UIDs extracted
+// from a SORT response.
+func (rsp *Response) SortResults() []uint32 {
+	v, ok := rsp.Decoded.([]uint32)
+	if !ok && rsp.Decoded == nil && rsp.Label == "SORT" {
+		if len(rsp.Fields) > 1 {
+			v = make([]uint32, len(rsp.Fields)-1)
+			for i, f := range rsp.Fields[1:] {
+				v[i] = AsNumber(f)
+			}
+		}
+		rsp.Decoded = v
+	}
+	return v
+}
+
 // MailboxFlags returns a FlagSet extracted from a FLAGS or PERMANENTFLAGS
 // response. Note that FLAGS is a Data response, while PERMANENTFLAGS is Status.
 func (rsp *Response) MailboxFlags() FlagSet {

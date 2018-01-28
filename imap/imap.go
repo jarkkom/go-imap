@@ -345,6 +345,20 @@ func (c *Client) Expunge(uids *SeqSet) (cmd *Command, err error) {
 	return c.Send("EXPUNGE")
 }
 
+// The SORT command is a variant of SEARCH with sorting semantics for
+// the results.
+// It is the caller's responsibility to quote strings when necessary. All strings
+// must use UTF-8 encoding.
+func (c *Client) Sort(sort Field, spec ...Field) (cmd *Command, err error) {
+	return c.Send("SORT", append([]Field{sort, "UTF-8"}, spec...)...)
+}
+
+// UIDSort is identical to Sort, but the numbers returned in the response
+// are unique identifiers instead of message sequence numbers.
+func (c *Client) UIDSort(sort Field, spec ...Field) (cmd *Command, err error) {
+	return c.Send("UID SORT", append([]Field{sort, "UTF-8"}, spec...)...)
+}
+
 // Search searches the mailbox for messages that match the given searching
 // criteria. See RFC 3501 section 6.4.4 for a list of all valid search keys. It
 // is the caller's responsibility to quote strings when necessary. All strings

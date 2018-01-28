@@ -333,6 +333,8 @@ func defaultCommands() map[string]*CommandConfig {
 		"CLOSE":      &CommandConfig{States: sel, Exclusive: true},
 		"EXPUNGE":    &CommandConfig{States: sel, Filter: NameFilter},
 		"SEARCH":     &CommandConfig{States: sel, Filter: NameFilter},
+		"SORT":       &CommandConfig{States: sel, Filter: NameFilter},
+		"UID SORT":   &CommandConfig{States: sel, Filter: NameFilter},
 		"FETCH":      &CommandConfig{States: sel, Filter: FetchFilter},
 		"STORE":      &CommandConfig{States: sel, Filter: FetchFilter},
 		"COPY":       &CommandConfig{States: sel},
